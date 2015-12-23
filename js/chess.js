@@ -1,0 +1,3 @@
+window.Chess = window.Chess || {
+  
+};

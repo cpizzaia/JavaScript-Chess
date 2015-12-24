@@ -27,29 +27,29 @@ Chess.Board.prototype.getPiece = function(array) {
 
 Chess.Board.prototype.placePiece = function(i, j) {
   if (i === 1) {
-    return new Chess.Pawn("black");
+    return new Chess.Pawn("black", this);
   } else if (i === 6) {
-    return new Chess.Pawn("white");
+    return new Chess.Pawn("white", this);
   } else if (i === 0 && (j === 7 || j === 0)) {
-    return new Chess.Rook("black");
+    return new Chess.Rook("black", this);
   } else if (i === 0 && (j === 6 || j === 1)) {
-    return new Chess.Knight("black");
+    return new Chess.Knight("black", this);
   } else if (i === 0 && (j === 5 || j === 2)) {
-    return new Chess.Bishop("black");
+    return new Chess.Bishop("black", this);
   } else if (i === 0 && j === 4) {
-    return new Chess.King("black");
+    return new Chess.King("black", this);
   } else if (i === 0 && j === 3) {
-    return new Chess.Queen("black");
+    return new Chess.Queen("black", this);
   } else if (i === 7 && (j === 7 || j === 0)) {
-    return new Chess.Rook("white");
+    return new Chess.Rook("white", this);
   } else if (i === 7 && (j === 6 || j === 1)) {
-    return new Chess.Knight("white");
+    return new Chess.Knight("white", this);
   } else if (i === 7 && (j === 5 || j === 2)) {
-    return new Chess.Bishop("white");
+    return new Chess.Bishop("white", this);
   } else if (i === 7 && j === 4) {
-    return new Chess.King("white");
+    return new Chess.King("white", this);
   } else if (i === 7 && j === 3) {
-    return new Chess.Queen("white");
+    return new Chess.Queen("white", this);
   } else {
     return null;
   }

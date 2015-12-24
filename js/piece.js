@@ -141,5 +141,27 @@ Chess.Pawn = function(color, board) {
 Chess.inheritsFromPiece(Chess.Pawn);
 
 Chess.Pawn.prototype.validMove = function(startPos, endPos) {
-  return Chess.Piece.prototype.validMove.call(this, startPos, endPos);
+  var
+  a = startPos[0],
+  b = startPos[1],
+  x = endPos[0],
+  y = endPos[1];
+
+  if (this.board.grid[x][y] !== null && b === y) return false;
+
+  if (this.color === "white" && a === 6 && y === b && Math.abs(x - a) == 2) {
+    return true;
+  } else if (this.color === "black" && a == 1 && y==b && Math.abs(x - a) == 2) {
+    return true;
+  }
+
+  if (this.color === "white" &&  a - x === 1 && Math.abs(b - y) === 1 && this.board.grid[x][y] !== null && this.board.grid[x][y].color != this.color) {
+    return true;
+  } else if (this.color === "black" && a - x === -1 && Math.abs(b - y) === 1 && this.board.grid[x][y] !== null && this.board.grid[x][y].color !== this.color) {
+    return true;
+  }
+
+  var expression = this.color === "black" ? x - a === 1 && y === b : x - a === -1 && y === b;
+  
+  if (expression) return Chess.Piece.prototype.validMove.call(this, startPos, endPos);
 };

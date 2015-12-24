@@ -30,11 +30,15 @@ Chess.Display.prototype.appendSquare = function(i, j, piece) {
 
   square.id = "[" + i + "," + j + "]";
 
-  if (piece !== null) {
-    square.innerHTML = piece.show;
+  if (piece !== null) square.innerHTML = piece.show;
+
+  if (Chess.startPos !== null && Chess.startPos[0] === i && Chess.startPos[1] === j) {
+    square.className = square.className + " selected-piece";
   }
-    square.addEventListener('click', function() {
-      console.log(square.id);
-    });
+
+  square.addEventListener('click', function() {
+    Chess.selectPosition(JSON.parse(square.id));
+  });
+
   this.chessboard.appendChild(square);
 };

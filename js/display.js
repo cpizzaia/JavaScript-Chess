@@ -33,6 +33,8 @@ Chess.Display.prototype.appendSquare = function(i, j, piece) {
   if (piece !== null) {
     square.innerHTML = piece.show;
   }
-
+    square.addEventListener('click', function() {
+      console.log(square.id);
+    });
   this.chessboard.appendChild(square);
 };

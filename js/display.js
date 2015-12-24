@@ -6,9 +6,9 @@ Chess.Display = function(board) {
 
 Chess.Display.prototype.render = function() {
   this.empty();
-  for (var i = 0; i < this.board.boardArray.length; i++) {
-    for (var j = 0; j < this.board.boardArray[i].length; j++) {
-      this.appendSquare(i, j, this.board.boardArray[i][j]);
+  for (var i = 0; i < this.board.grid.length; i++) {
+    for (var j = 0; j < this.board.grid[i].length; j++) {
+      this.appendSquare(i, j, this.board.grid[i][j]);
     }
   }
 };

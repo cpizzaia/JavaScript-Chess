@@ -3,13 +3,23 @@ Chess.Board = function() {
 };
 
 Chess.Board.prototype.init = function() {
-  this.boardArray = [];
+  this.grid = [];
   for (var i = 0; i < 8; i++) {
-    this.boardArray.push([]);
+    this.grid.push([]);
     for (var j = 0; j < 8; j++) {
-      this.boardArray[i][j] = this.placePiece(i, j);
+      this.grid[i][j] = this.placePiece(i, j);
     }
   }
+};
+
+Chess.Board.prototype.move = function(startPos, endPos) {
+  var piece = this.grid[startPos[0]][startPos[1]];
+  this.grid[startPos[0]][startPos[1]] = null;
+  this.grid[endPos[0]][endPos[1]] = piece;
+};
+
+Chess.Board.prototype.getPiece = function(array) {
+  return this.grid[array[0]][array[1]];
 };
 
 Chess.Board.prototype.placePiece = function(i, j) {

@@ -1,0 +1,26 @@
+#chessboard {
+  width: 600px;
+  height: 600px;
+  border: 1px solid black;
+  margin: 30px auto;
+}
+
+.brown, .white {
+  float: left;
+  width: 75px;
+  height: 75px;
+}
+
+.brown {
+  background: chocolate;
+}
+
+.white {
+  background: white;
+}
+
+.group:after {
+  display: block;
+  content: "";
+  clear: both;
+}

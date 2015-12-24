@@ -28,8 +28,10 @@ Chess.Display.prototype.appendSquare = function(i, j, piece) {
     square.className = "brown";
   }
 
+  square.id = "[" + i + "," + j + "]";
+
   if (piece !== null) {
-    square.innerHtml = piece.show;
+    square.innerHTML = piece.show;
   }
 
   this.chessboard.appendChild(square);

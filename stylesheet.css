@@ -6,6 +6,8 @@
 }
 
 .brown, .white {
+  text-align: center;
+  font-size: 70px;
   float: left;
   width: 75px;
   height: 75px;

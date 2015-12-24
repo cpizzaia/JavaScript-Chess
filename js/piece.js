@@ -20,6 +20,8 @@ Chess.Queen = function(color, board) {
   this.show = this.color === "black" ? "♛" : "♕";
 };
 
+Chess.inheritsFromPiece(Chess.Queen);
+
 Chess.Queen.prototype.validMove = function(startPos, endPos) {
   return Chess.Piece.prototype.validMove.call(this, startPos, endPos);
 };
@@ -28,6 +30,8 @@ Chess.King = function(color, board) {
   this.init(color, board);
   this.show = this.color === "black" ? "♚" : "♔";
 };
+
+Chess.inheritsFromPiece(Chess.King);
 
 Chess.King.prototype.validMove = function(startPos, endPos) {
   return Chess.Piece.prototype.validMove.call(this, startPos, endPos);
@@ -38,6 +42,8 @@ Chess.Knight = function(color, board) {
   this.show = this.color === "black" ? "♞" : "♘";
 };
 
+Chess.inheritsFromPiece(Chess.Knight);
+
 Chess.Knight.prototype.validMove = function(startPos, endPos) {
   return Chess.Piece.prototype.validMove.call(this, startPos, endPos);
 };
@@ -46,6 +52,8 @@ Chess.Bishop = function(color, board) {
   this.init(color, board);
   this.show = this.color === "black" ? "♝" : "♗";
 };
+
+Chess.inheritsFromPiece(Chess.Bishop);
 
 Chess.Bishop.prototype.validMove = function(startPos, endPos) {
   return Chess.Piece.prototype.validMove.call(this, startPos, endPos);
@@ -56,6 +64,8 @@ Chess.Rook = function(color, board) {
   this.show = this.color === "black" ? "♜" : "♖";
 };
 
+Chess.inheritsFromPiece(Chess.Rook);
+
 Chess.Rook.prototype.validMove = function(startPos, endPos) {
   return Chess.Piece.prototype.validMove.call(this, startPos, endPos);
 };
@@ -65,14 +75,8 @@ Chess.Pawn = function(color, board) {
   this.show = this.color === "black" ? "♟" : "♙";
 };
 
+Chess.inheritsFromPiece(Chess.Pawn);
+
 Chess.Pawn.prototype.validMove = function(startPos, endPos) {
   return Chess.Piece.prototype.validMove.call(this, startPos, endPos);
 };
-
-
-Chess.inheritsFromPiece(Chess.Queen);
-Chess.inheritsFromPiece(Chess.King);
-Chess.inheritsFromPiece(Chess.Knight);
-Chess.inheritsFromPiece(Chess.Bishop);
-Chess.inheritsFromPiece(Chess.Rook);
-Chess.inheritsFromPiece(Chess.Pawn);

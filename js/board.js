@@ -14,8 +14,11 @@ Chess.Board.prototype.init = function() {
 
 Chess.Board.prototype.move = function(startPos, endPos) {
   var piece = this.grid[startPos[0]][startPos[1]];
-  this.grid[startPos[0]][startPos[1]] = null;
-  this.grid[endPos[0]][endPos[1]] = piece;
+
+  if (piece.validMove(startPos, endPos)) {
+    this.grid[startPos[0]][startPos[1]] = null;
+    this.grid[endPos[0]][endPos[1]] = piece;
+  }
 };
 
 Chess.Board.prototype.getPiece = function(array) {

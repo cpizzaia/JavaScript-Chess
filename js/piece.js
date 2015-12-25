@@ -12,6 +12,14 @@ Chess.Piece.prototype.init = function(color, board) {
 };
 
 Chess.Piece.prototype.validMove = function(startPos, endPos) {
+  var
+  a = startPos[0],
+  b = startPos[1],
+  x = endPos[0],
+  y = endPos[1];
+
+  if (this.board.getPiece(endPos) !== null && this.color === this.board.getPiece(endPos).color) return false;
+
   return true;
 };
 
@@ -162,6 +170,6 @@ Chess.Pawn.prototype.validMove = function(startPos, endPos) {
   }
 
   var expression = this.color === "black" ? x - a === 1 && y === b : x - a === -1 && y === b;
-  
+
   if (expression) return Chess.Piece.prototype.validMove.call(this, startPos, endPos);
 };

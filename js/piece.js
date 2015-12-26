@@ -20,6 +20,110 @@ Chess.Piece.prototype.validMove = function(startPos, endPos) {
 
   if (this.board.getPiece(endPos) !== null && this.color === this.board.getPiece(endPos).color) return false;
 
+  if (this.board.getPiece(startPos) instanceof Chess.Knight) return true;
+
+  if (this.collisionCheck(startPos, endPos) === false) return false;
+
+  return true;
+};
+
+Chess.Piece.prototype.pieceDirection = function(startPos, endPos) {
+  var
+  a = startPos[0],
+  b = startPos[1],
+  x = endPos[0],
+  y = endPos[1];
+
+  if ( x < a && y == b) {
+    return "up";
+  } else if (x > a && y == b) {
+    return "down";
+  } else if (x == a && y < b) {
+    return "left";
+  } else if (x == a && y > b) {
+    return "right";
+  } else if (x < a && y > b) {
+    return "upright";
+  } else if (x < a && y < b) {
+    return "upleft";
+  } else if (x > a && y > b) {
+    return "downright";
+  } else if (x > a && y < b) {
+    return "downleft";
+  }
+};
+
+Chess.Piece.prototype.collisionCheck = function(startPos, endPos) {
+  var
+  a = startPos[0],
+  b = startPos[1],
+  x = endPos[0],
+  y = endPos[1],
+  start,
+  end,
+  pathLength;
+
+  pathLength = Math.abs(y - b);
+
+  switch (this.pieceDirection(startPos, endPos)) {
+
+    case "up":
+      start = a - 1;
+      end = x;
+      for (var i = start; i > end; i--){
+        if (this.board.getPiece([i,  y]) !== null) return false;
+      }
+      break;
+
+    case "down":
+      start = a + 1;
+      end = x;
+      for (i = start; i < end; i++){
+        if (this.board.getPiece([i,  y]) !== null) return false;
+      }
+      break;
+
+    case "left":
+      start = b - 1;
+      end = y;
+      for (i = start; i > end; i--){
+        if (this.board.getPiece([x,  i]) !== null) return false;
+      }
+      break;
+
+    case "right":
+      start = b + 1;
+      end = y;
+      for (i = start; i < end; i++){
+        if (this.board.getPiece([x,  i]) !== null) return false;
+      }
+      break;
+
+    case "upright":
+      for (i = 1; i < pathLength; i++) {
+        if (this.board.getPiece([a - i,  b + i]) !== null) return false;
+      }
+      break;
+
+    case "downright":
+      for (i = 1; i < pathLength; i++) {
+        if (this.board.getPiece([a + i,  b + i]) !== null) return false;
+      }
+      break;
+
+    case "downleft":
+      for (i = 1; i < pathLength; i++) {
+        if (this.board.getPiece([a + i,  b - i]) !== null) return false;
+      }
+      break;
+
+    case "upleft":
+      for (i = 1; i < pathLength; i++) {
+        if (this.board.getPiece([a - i,  b - i]) !== null) return false;
+      }
+      break;
+  }
+
   return true;
 };
 

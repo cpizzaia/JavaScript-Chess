@@ -22,7 +22,10 @@ Chess.Display.prototype.empty = function() {
 Chess.Display.prototype.appendSquare = function(i, j, piece) {
   var square = document.createElement("div");
 
-  if ((i + j) % 2 === 0) {
+
+  if (this._includesSubArray(Chess.moves, [i, j])) {
+    square.className = "green";
+  } else if ((i + j) % 2 === 0) {
     square.className = "white";
   } else {
     square.className = "brown";
@@ -41,4 +44,11 @@ Chess.Display.prototype.appendSquare = function(i, j, piece) {
   });
 
   this.chessboard.appendChild(square);
+};
+
+Chess.Display.prototype._includesSubArray = function(array, subArray) {
+  for (var i = 0; i < array.length; i++) {
+    if (Chess._arrayEquals(array[i], subArray) === true) return true;
+  }
+  return false;
 };

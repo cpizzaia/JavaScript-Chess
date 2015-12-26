@@ -5,12 +5,10 @@
   margin: 30px auto;
 }
 
-.brown, .white {
+.green, .brown, .white {
   text-align: center;
   font-size: 70px;
   float: left;
-  width: 75px;
-  height: 75px;
   cursor: pointer;
 
   -webkit-touch-callout: none;
@@ -21,12 +19,24 @@
   user-select: none;
 }
 
+.brown, .white {
+  width: 75px;
+  height: 75px;
+}
+
 .brown {
   background: chocolate;
 }
 
 .white {
   background: white;
+}
+
+.green {
+  background: green;
+  width: 73px;
+  height: 73px;
+  border: 1px solid black;
 }
 
 .selected-piece {

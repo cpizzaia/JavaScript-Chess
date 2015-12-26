@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 window.Chess = window.Chess || {
+  moves: [],
+
   newGame: function() {
     this.startPos = null;
     this.endPos = null;
@@ -13,11 +15,14 @@ window.Chess = window.Chess || {
   selectPosition: function(array) {
     if (this.startPos === null && this.board.getPiece(array) !== null) {
       this.startPos = array;
+      this.availableMoves(this.startPos);
     } else if (this._arrayEquals(this.startPos, array)) {
       this.startPos = null;
+      this.moves = [];
     } else if (this.startPos !== null) {
       this.endPos = array;
       this.move(this.startPos, this.endPos);
+      this.moves = [];
     }
     this.display.render();
   },
@@ -26,6 +31,17 @@ window.Chess = window.Chess || {
     this.board.move(this.startPos, this.endPos);
     this.startPos = null;
     this.endPos = null;
+  },
+
+  availableMoves: function(position) {
+    var piece = this.board.getPiece(position);
+    this.moves = [];
+
+    for (var i = 0; i < this.board.grid.length; i++) {
+      for (var j = 0; j < this.board.grid[i].length; j++) {
+        if (piece.validMove(this.startPos, [i, j])) this.moves.push([i, j]);
+      }
+    }
   },
 
   _arrayEquals: function(array1, array2) {

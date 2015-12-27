@@ -23,13 +23,9 @@ Chess.Board.prototype.move = function(startPos, endPos) {
     this.grid[endPos[0]][endPos[1]] = piece1;
     piece1.currentPosition = endPos;
     this.moves.push([startPos, endPos, piece1, piece2]);
+    return true;
   }
-
-  if (piece1.color === "white" && Chess.wKing.inCheck()) {
-    this.reverseLastMove();
-  } else if (piece1.color === "black" && Chess.bKing.inCheck()) {
-    this.reverseLastMove();
-  }
+  return false;
 };
 
 Chess.Board.prototype.reverseLastMove = function() {

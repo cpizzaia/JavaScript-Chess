@@ -186,6 +186,36 @@ Chess.King.prototype.validMove = function(startPos, endPos) {
   }
 };
 
+Chess.King.prototype.checkmate = function() {
+  var startPos, endPos, piece;
+  for (var i = 0; i < this.board.grid.length; i++) {
+    for (var j = 0; j < this.board.grid[i].length; j++) {
+      startPos = [i,j];
+      piece = this.board.getPiece(startPos);
+
+      if (piece !== null && piece.color === this.color) {
+
+        for (var k = 0; k < this.board.grid.length; k++) {
+          for (var l = 0; l < this.board.grid[i].length; l++) {
+
+            endPos = [k,l];
+
+            if (this.board.move(startPos, endPos)) {
+              if (!this.inCheck()) {
+                this.board.reverseLastMove();
+                return false;
+              }
+              this.board.reverseLastMove();
+            }
+          }
+        }
+      }
+    }
+  }
+  alert("checkmate");
+  return true;
+};
+
 Chess.King.prototype.inCheck = function() {
   var piece;
   for (var i = 0; i < this.board.grid.length; i++) {

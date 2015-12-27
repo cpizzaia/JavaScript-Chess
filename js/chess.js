@@ -10,11 +10,12 @@ window.Chess = window.Chess || {
     this.display = new this.Display(this.board);
     this.bKing = this.board.grid[0][4];
     this.wKing = this.board.grid[7][4];
+    this.currentTurn = "white";
   },
 
   selectPosition: function(array) {
     var piece = this.board.getPiece(array);
-    if (this.startPos === null && piece !== null) {
+    if (this.startPos === null && piece !== null && piece.color === this.currentTurn) {
       this.startPos = array;
       piece.availableMoves();
     } else if (this.Util._arrayEquals(this.startPos, array)) {
@@ -24,6 +25,8 @@ window.Chess = window.Chess || {
     } else if (this.startPos !== null) {
       this.endPos = array;
       this.move(this.startPos, this.endPos);
+      this.reverseIfInCheck(this.changeTurns.bind(this));
+      this.gameOver();
       piece = null;
     }
     this.display.render(piece);
@@ -34,4 +37,31 @@ window.Chess = window.Chess || {
     this.startPos = null;
     this.endPos = null;
   },
+
+  changeTurns: function() {
+    if (this.currentTurn === "white") {
+      this.currentTurn = "black";
+    } else {
+      this.currentTurn = "white";
+    }
+  },
+
+  reverseIfInCheck: function(callback) {
+    if (this.currentTurn === "white" && this.wKing.inCheck()) {
+      this.board.reverseLastMove();
+      return;
+    } else if (this.currentTurn === "black" && this.bKing.inCheck()) {
+      this.board.reverseLastMove();
+      return;
+    }
+    callback();
+  },
+
+  gameOver: function() {
+    if (this.currentTurn === "white") {
+      this.bKing.checkmate();
+    } else {
+      this.bKing.checkmate();
+    }
+  }
 };

@@ -2,13 +2,25 @@ Chess.inheritsFromPiece = function(child) {
   child.prototype = Object.create(Chess.Piece.prototype);
 };
 
-Chess.Piece = function(color, board) {
-  this.init(color, board);
+Chess.Piece = function(color, board, position) {
+  this.init(color, board, position);
 };
 
-Chess.Piece.prototype.init = function(color, board) {
+Chess.Piece.prototype.init = function(color, board, position) {
   this.color = color;
   this.board = board;
+  this.currentPosition = position;
+  this.moves = [];
+};
+
+Chess.Piece.prototype.availableMoves = function() {
+  this.moves = [];
+
+  for (var i = 0; i < this.board.grid.length; i++) {
+    for (var j = 0; j < this.board.grid[i].length; j++) {
+      if (this.validMove(this.currentPosition, [i, j])) this.moves.push([i, j]);
+    }
+  }
 };
 
 Chess.Piece.prototype.validMove = function(startPos, endPos) {
@@ -129,8 +141,8 @@ Chess.Piece.prototype.collisionCheck = function(startPos, endPos) {
 
 
 
-Chess.Queen = function(color, board) {
-  this.init(color, board);
+Chess.Queen = function(color, board, position) {
+  this.init(color, board, position);
   this.show = this.color === "black" ? "♛" : "♕";
 };
 
@@ -152,8 +164,8 @@ Chess.Queen.prototype.validMove = function(startPos, endPos) {
 
 
 
-Chess.King = function(color, board) {
-  this.init(color, board);
+Chess.King = function(color, board, position) {
+  this.init(color, board, position);
   this.show = this.color === "black" ? "♚" : "♔";
 };
 
@@ -173,10 +185,14 @@ Chess.King.prototype.validMove = function(startPos, endPos) {
   }
 };
 
+Chess.King.prototype.inCheck = function() {
+
+};
 
 
-Chess.Knight = function(color, board) {
-  this.init(color, board);
+
+Chess.Knight = function(color, board, position) {
+  this.init(color, board, position);
   this.show = this.color === "black" ? "♞" : "♘";
 };
 
@@ -198,8 +214,8 @@ Chess.Knight.prototype.validMove = function(startPos, endPos) {
 
 
 
-Chess.Bishop = function(color, board) {
-  this.init(color, board);
+Chess.Bishop = function(color, board, position) {
+  this.init(color, board, position);
   this.show = this.color === "black" ? "♝" : "♗";
 };
 
@@ -221,8 +237,8 @@ Chess.Bishop.prototype.validMove = function(startPos, endPos) {
 
 
 
-Chess.Rook = function(color, board) {
-  this.init(color, board);
+Chess.Rook = function(color, board, position) {
+  this.init(color, board, position);
   this.show = this.color === "black" ? "♜" : "♖";
 };
 
@@ -245,8 +261,8 @@ Chess.Rook.prototype.validMove = function(startPos, endPos) {
 
 
 
-Chess.Pawn = function(color, board) {
-  this.init(color, board);
+Chess.Pawn = function(color, board, position) {
+  this.init(color, board, position);
   this.show = this.color === "black" ? "♟" : "♙";
 };
 

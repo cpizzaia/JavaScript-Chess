@@ -3,8 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 window.Chess = window.Chess || {
-  moves: [],
-
   newGame: function() {
     this.startPos = null;
     this.endPos = null;
@@ -13,35 +11,26 @@ window.Chess = window.Chess || {
   },
 
   selectPosition: function(array) {
-    if (this.startPos === null && this.board.getPiece(array) !== null) {
+    var piece = this.board.getPiece(array);
+    if (this.startPos === null && piece !== null) {
       this.startPos = array;
-      this.availableMoves(this.startPos);
+      piece.availableMoves();
     } else if (this._arrayEquals(this.startPos, array)) {
       this.startPos = null;
       this.moves = [];
+      piece = null;
     } else if (this.startPos !== null) {
       this.endPos = array;
       this.move(this.startPos, this.endPos);
-      this.moves = [];
+      piece = null;
     }
-    this.display.render();
+    this.display.render(piece);
   },
 
   move: function() {
     this.board.move(this.startPos, this.endPos);
     this.startPos = null;
     this.endPos = null;
-  },
-
-  availableMoves: function(position) {
-    var piece = this.board.getPiece(position);
-    this.moves = [];
-
-    for (var i = 0; i < this.board.grid.length; i++) {
-      for (var j = 0; j < this.board.grid[i].length; j++) {
-        if (piece.validMove(this.startPos, [i, j])) this.moves.push([i, j]);
-      }
-    }
   },
 
   _arrayEquals: function(array1, array2) {

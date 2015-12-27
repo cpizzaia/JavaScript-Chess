@@ -45,10 +45,3 @@ Chess.Display.prototype.appendSquare = function(i, j, piece, selectedPiece) {
 
   this.chessboard.appendChild(square);
 };
-
-Chess.Display.prototype._includesSubArray = function(array, subArray) {
-  for (var i = 0; i < array.length; i++) {
-    if (Chess._arrayEquals(array[i], subArray) === true) return true;
-  }
-  return false;
-};

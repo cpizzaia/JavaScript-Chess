@@ -32,11 +32,4 @@ window.Chess = window.Chess || {
     this.startPos = null;
     this.endPos = null;
   },
-
-  _arrayEquals: function(array1, array2) {
-    for (var i = 0; i < array2.length; i++) {
-      if (array1[i] !== array2[i]) return false;
-    }
-    return true;
-  }
 };

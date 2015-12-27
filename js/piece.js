@@ -191,11 +191,12 @@ Chess.King.prototype.inCheck = function() {
   for (var i = 0; i < this.board.grid.length; i++) {
     for (var j = 0; j < this.board.grid[i].length; j++) {
       piece = this.board.getPiece([i, j]);
-      if (piece !== null) {
-        piece.availableMoves
+      if (piece !== null && piece.color !== this.color) {
+        if (Chess.Util._includesSubArray(piece.availableMoves(), this.currentPosition)) return true;
       }
     }
   }
+  return false;
 };
 
 

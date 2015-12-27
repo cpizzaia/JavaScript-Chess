@@ -23,7 +23,7 @@ Chess.Display.prototype.appendSquare = function(i, j, piece, selectedPiece) {
   var square = document.createElement("div");
 
 
-  if (selectedPiece !== null && this._includesSubArray(selectedPiece.moves, [i, j])) {
+  if (selectedPiece !== null && Chess.Util._includesSubArray(selectedPiece.moves, [i, j])) {
     square.className = "green";
   } else if ((i + j) % 2 === 0) {
     square.className = "white";

@@ -21,6 +21,7 @@ Chess.Piece.prototype.availableMoves = function() {
       if (this.validMove(this.currentPosition, [i, j])) this.moves.push([i, j]);
     }
   }
+  return this.moves;
 };
 
 Chess.Piece.prototype.validMove = function(startPos, endPos) {
@@ -186,7 +187,15 @@ Chess.King.prototype.validMove = function(startPos, endPos) {
 };
 
 Chess.King.prototype.inCheck = function() {
-
+  var piece;
+  for (var i = 0; i < this.board.grid.length; i++) {
+    for (var j = 0; j < this.board.grid[i].length; j++) {
+      piece = this.board.getPiece([i, j]);
+      if (piece !== null) {
+        piece.availableMoves
+      }
+    }
+  }
 };
 
 

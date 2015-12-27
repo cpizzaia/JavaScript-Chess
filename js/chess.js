@@ -15,7 +15,7 @@ window.Chess = window.Chess || {
     if (this.startPos === null && piece !== null) {
       this.startPos = array;
       piece.availableMoves();
-    } else if (this._arrayEquals(this.startPos, array)) {
+    } else if (this.Util._arrayEquals(this.startPos, array)) {
       this.startPos = null;
       this.moves = [];
       piece = null;

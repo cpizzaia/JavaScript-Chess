@@ -8,6 +8,8 @@ window.Chess = window.Chess || {
     this.endPos = null;
     this.board = new this.Board();
     this.display = new this.Display(this.board);
+    this.bKing = this.board.grid[0][4];
+    this.wKing = this.board.grid[7][4];
   },
 
   selectPosition: function(array) {

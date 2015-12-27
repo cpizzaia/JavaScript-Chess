@@ -1,5 +1,6 @@
 Chess.Board = function() {
   this.init();
+  this.moves = [];
 };
 
 Chess.Board.prototype.init = function() {
@@ -13,13 +14,40 @@ Chess.Board.prototype.init = function() {
 };
 
 Chess.Board.prototype.move = function(startPos, endPos) {
-  var piece = this.grid[startPos[0]][startPos[1]];
+  var
+  piece1 = this.grid[startPos[0]][startPos[1]],
+  piece2 = this.grid[endPos[0]][endPos[1]];
 
-  if (piece.validMove(startPos, endPos)) {
+  if (piece1.validMove(startPos, endPos)) {
     this.grid[startPos[0]][startPos[1]] = null;
-    this.grid[endPos[0]][endPos[1]] = piece;
-    piece.currentPosition = endPos;
+    this.grid[endPos[0]][endPos[1]] = piece1;
+    piece1.currentPosition = endPos;
+    this.moves.push([startPos, endPos, piece1, piece2]);
   }
+
+  if (piece1.color === "white" && Chess.wKing.inCheck()) {
+    this.reverseLastMove();
+  } else if (piece1.color === "black" && Chess.bKing.inCheck()) {
+    this.reverseLastMove();
+  }
+};
+
+Chess.Board.prototype.reverseLastMove = function() {
+  var
+  lastMove = this.moves[this.moves.length-1],
+  startPos = lastMove[0],
+  endPos = lastMove[1],
+  piece1 = lastMove[2],
+  piece2 = lastMove[3];
+
+
+  this.grid[startPos[0]][startPos[1]] = piece1;
+  piece1.currentPosition = startPos;
+
+  this.grid[endPos[0]][endPos[1]] = piece2;
+  if (piece2 !== null) piece2.currentPosition = endPos;
+
+  this.moves.pop();
 };
 
 Chess.Board.prototype.getPiece = function(array) {

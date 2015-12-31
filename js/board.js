@@ -1,5 +1,9 @@
-Chess.Board = function() {
-  this.init();
+Chess.Board = function(grid) {
+  if (typeof grid !== "undefined") {
+    this.grid = grid;
+  } else {
+    this.init();
+  }
   this.moves = [];
 };
 

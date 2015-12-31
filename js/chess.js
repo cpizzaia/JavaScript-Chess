@@ -1,7 +1,3 @@
-document.addEventListener("DOMContentLoaded", function() {
-  Chess.newGame();
-});
-
 window.Chess = window.Chess || {
   newGame: function() {
     this.startPos = null;
@@ -25,15 +21,16 @@ window.Chess = window.Chess || {
     } else if (this.startPos !== null) {
       this.endPos = array;
       this.move(this.startPos, this.endPos);
-      this.reverseIfInCheck(this.changeTurns.bind(this));
-      this.gameOver();
       piece = null;
     }
     this.display.render(piece);
   },
 
   move: function() {
-    this.board.move(this.startPos, this.endPos);
+    if (this.board.move(this.startPos, this.endPos)) {
+      this.reverseIfInCheck(this.changeTurns.bind(this));
+      this.gameOver();
+    }
     this.startPos = null;
     this.endPos = null;
   },

@@ -41,4 +41,20 @@ describe("Piece", function() {
       expect(piece.validMove(piece.currentPosition, [2,2])).toBe(false);
     });
   });
+
+  describe("#pieceDirection", function() {
+    it("returns the direction the piece is moving", function() {
+      var piece = new Chess.Queen("black", board, [4,4]);
+      board.grid[4][4] = piece;
+
+      expect(piece.pieceDirection(piece.currentPosition, [7,4])).toEqual("down");
+      expect(piece.pieceDirection(piece.currentPosition, [5,5])).toEqual("downright");
+      expect(piece.pieceDirection(piece.currentPosition, [4,5])).toEqual("right");
+      expect(piece.pieceDirection(piece.currentPosition, [3,5])).toEqual("upright");
+      expect(piece.pieceDirection(piece.currentPosition, [2,4])).toEqual("up");
+      expect(piece.pieceDirection(piece.currentPosition, [2,2])).toEqual("upleft");
+      expect(piece.pieceDirection(piece.currentPosition, [4,1])).toEqual("left");
+      expect(piece.pieceDirection(piece.currentPosition, [5,3])).toEqual("downleft");
+    });
+  });
 });

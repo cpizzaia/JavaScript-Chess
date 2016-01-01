@@ -57,4 +57,30 @@ describe("Piece", function() {
       expect(piece.pieceDirection(piece.currentPosition, [5,3])).toEqual("downleft");
     });
   });
+
+  describe("#collisionCheck", function() {
+    it("returns false if there is a collision", function() {
+      var piece = new Chess.Queen("black", board, [4,4]);
+      board.grid[4][4] = piece;
+      board.grid[3][3] = new Chess.Pawn("black", board, [3,3]);
+
+      expect(piece.collisionCheck(piece.currentPosition, [2,2])).toBe(false);
+    });
+
+    it("returns true if there is no collision", function() {
+      var piece = new Chess.Queen("black", board, [4,4]);
+      board.grid[4][4] = piece;
+      board.grid[3][3] = new Chess.Pawn("black", board, [2,2]);
+
+      expect(piece.collisionCheck(piece.currentPosition, [3,3])).toBe(true);
+    });
+
+    it("it does not check the end position", function() {
+      var piece = new Chess.Queen("black", board, [4,4]);
+      board.grid[4][4] = piece;
+      board.grid[3][3] = new Chess.Pawn("black", board, [3,3]);
+
+      expect(piece.collisionCheck(piece.currentPosition, [3,3])).toBe(true);
+    });
+  });
 });

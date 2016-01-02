@@ -59,28 +59,64 @@ describe("Piece", function() {
   });
 
   describe("#collisionCheck", function() {
-    it("returns false if there is a collision", function() {
-      var piece = new Chess.Queen("black", board, [4,4]);
+    beforeEach(function() {
+      piece = new Chess.Queen("black", board, [4,4]);
       board.grid[4][4] = piece;
-      board.grid[3][3] = new Chess.Pawn("black", board, [3,3]);
+    });
 
+    it("returns false if there is a collision", function() {
+      board.grid[3][3] = new Chess.Pawn("black", board, [3,3]);
       expect(piece.collisionCheck(piece.currentPosition, [2,2])).toBe(false);
     });
 
     it("returns true if there is no collision", function() {
-      var piece = new Chess.Queen("black", board, [4,4]);
-      board.grid[4][4] = piece;
       board.grid[3][3] = new Chess.Pawn("black", board, [2,2]);
 
       expect(piece.collisionCheck(piece.currentPosition, [3,3])).toBe(true);
     });
 
     it("it does not check the end position", function() {
-      var piece = new Chess.Queen("black", board, [4,4]);
-      board.grid[4][4] = piece;
       board.grid[3][3] = new Chess.Pawn("black", board, [3,3]);
 
       expect(piece.collisionCheck(piece.currentPosition, [3,3])).toBe(true);
+    });
+  });
+
+  describe("#inCheck", function() {
+    beforeEach(function() {
+      piece = new Chess.King("black", board, [0,0]);
+      board.grid[0][0] = piece;
+    });
+
+    it("returns true if the king is in check", function() {
+      board.grid[0][1] = new Chess.Rook("white", board, [0,1]);
+      expect(piece.inCheck()).toBe(true);
+    });
+
+    it("returns false if the king is not in check", function() {
+      board.grid[0][1] = new Chess.Rook("black", board, [0,1]);
+      expect(piece.inCheck()).toBe(false);
+    });
+  });
+
+  describe("#checkmate", function() {
+    beforeEach(function() {
+      piece = new Chess.King("black", board, [0,0]);
+      board.grid[0][0] = piece;
+    });
+
+    it("returns true if the king is in checkmate", function() {
+      board.grid[2][2] = new Chess.Queen("white", board, [2,2]);
+      board.grid[0][2] = new Chess.Rook("white", board, [0,2]);
+      board.grid[2][0] = new Chess.Rook("white", board, [2,0]);
+      expect(piece.checkmate()).toBe(true);
+    });
+
+    it("returns false if the king is not in checkmate", function() {
+      board.grid[2][2] = new Chess.Queen("black", board, [2,2]);
+      board.grid[0][2] = new Chess.Rook("black", board, [0,2]);
+      board.grid[2][0] = new Chess.Rook("black", board, [2,0]);
+      expect(piece.checkmate()).toBe(false);
     });
   });
 });

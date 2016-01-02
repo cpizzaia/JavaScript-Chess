@@ -212,7 +212,6 @@ Chess.King.prototype.checkmate = function() {
       }
     }
   }
-  alert("checkmate");
   return true;
 };
 

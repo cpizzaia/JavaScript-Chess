@@ -22,6 +22,8 @@ Chess.Display.prototype.empty = function() {
 Chess.Display.prototype.appendSquare = function(i, j, piece, selectedPiece) {
   var square = document.createElement("div");
 
+  if (piece instanceof Chess.Pawn) piece.promotion();
+
 
   if (selectedPiece !== null && Chess.Util._includesSubArray(selectedPiece.moves, [i, j])) {
     square.className = "green";
@@ -44,4 +46,54 @@ Chess.Display.prototype.appendSquare = function(i, j, piece, selectedPiece) {
   });
 
   this.chessboard.appendChild(square);
+};
+
+Chess.Display.prototype.pawnPromotion = function(piece) {
+  var modalBackground = document.createElement("div");
+  var modal = document.createElement("section");
+  var prompt = document.createElement("p");
+
+  modalBackground.className = "chessboard-modal-background";
+  modal.className = "chessboard-modal";
+  prompt.className = "piece-select-prompt";
+
+  prompt.innerHTML = "What piece would you like";
+
+  modal.appendChild(prompt);
+
+  this.generateButton(piece, "Queen", modal);
+  this.generateButton(piece, "Bishop", modal);
+  this.generateButton(piece, "Rook", modal);
+  this.generateButton(piece, "Knight", modal);
+
+  this.chessboard.appendChild(modalBackground);
+  this.chessboard.appendChild(modal);
+};
+
+Chess.Display.prototype.clearPromotion = function() {
+  this.render(null);
+};
+
+Chess.Display.prototype.generateButton = function(piece, choice, element) {
+  var button = document.createElement("input");
+  button.type = "button";
+  button.value = choice;
+  button.className = "piece-select";
+
+  switch (choice) {
+    case "Queen":
+      button.onclick = piece.toQueen.bind(piece);
+      break;
+    case "Bishop":
+      button.onclick = piece.toBishop.bind(piece);
+      break;
+    case "Knight":
+      button.onclick = piece.toKnight.bind(piece);
+      break;
+    case "Rook":
+      button.onclick = piece.toRook.bind(piece);
+      break;
+  }
+
+  element.appendChild(button);
 };

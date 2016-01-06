@@ -332,3 +332,39 @@ Chess.Pawn.prototype.validMove = function(startPos, endPos) {
 
   if (expression) return Chess.Piece.prototype.validMove.call(this, startPos, endPos);
 };
+
+Chess.Pawn.prototype.promotion = function() {
+  if (this. color === "white" && this.currentPosition[0] === 0) {
+    Chess.display.pawnPromotion(this);
+  } else if (this. color === "black" && this.currentPosition[0] === 7) {
+    Chess.display.pawnPromotion(this);
+  }
+};
+
+Chess.Pawn.prototype.toQueen = function() {
+  var x = this.currentPosition[0];
+  var y = this.currentPosition[1];
+  this.board.grid[x][y] = new Chess.Queen(this.color, this.board, this.currentPosition);
+  Chess.display.clearPromotion();
+};
+
+Chess.Pawn.prototype.toBishop = function() {
+  var x = this.currentPosition[0];
+  var y = this.currentPosition[1];
+  this.board.grid[x][y] = new Chess.Bishop(this.color, this.board, this.currentPosition);
+  Chess.display.clearPromotion();
+};
+
+Chess.Pawn.prototype.toKnight = function() {
+  var x = this.currentPosition[0];
+  var y = this.currentPosition[1];
+  this.board.grid[x][y] = new Chess.Knight(this.color, this.board, this.currentPosition);
+  Chess.display.clearPromotion();
+};
+
+Chess.Pawn.prototype.toRook = function() {
+  var x = this.currentPosition[0];
+  var y = this.currentPosition[1];
+  this.board.grid[x][y] = new Chess.Rook(this.color, this.board, this.currentPosition);
+  Chess.display.clearPromotion();
+};

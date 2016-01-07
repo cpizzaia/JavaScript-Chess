@@ -1,4 +1,4 @@
-[Live](http://rawgit.com/cpizzaia/JavaScript-Chess/master/index.html)
+[Live](http://pizzaia.com/JavaScript-Chess)
 
 - Built in vanilla JavaScript.
 - Tested with Jasmine.

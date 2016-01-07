@@ -39,6 +39,7 @@
 .green, .brown, .white {
   text-align: center;
   font-size: 70px;
+  line-height: 75px;
   float: left;
   cursor: pointer;
 

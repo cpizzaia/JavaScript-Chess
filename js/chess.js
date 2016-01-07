@@ -56,9 +56,9 @@ window.Chess = window.Chess || {
 
   gameOver: function() {
     if (this.currentTurn === "white") {
-      if (this.wKing.checkmate()) alert("checkmate");
+      if (this.wKing.checkmate()) this.display.showWinner("Black");
     } else {
-      if (this.bKing.checkmate()) alert("checkmate");
+      if (this.bKing.checkmate()) this.display.showWinner("White");
     }
   }
 };

@@ -1,6 +1,12 @@
 Chess.Display = function(board) {
   this.board = board;
   this.chessboard = document.getElementById("chessboard");
+  this.currentState = 1;
+  this.states = {
+    Game: 1,
+    End: 0
+  };
+  this.winner = "";
   this.render(null);
 };
 
@@ -11,6 +17,7 @@ Chess.Display.prototype.render = function(selectedPiece) {
       this.appendSquare(i, j, this.board.grid[i][j], selectedPiece);
     }
   }
+  if (this.currentState === this.states.End) this.gameOver(this.winner);
 };
 
 Chess.Display.prototype.empty = function() {
@@ -72,6 +79,39 @@ Chess.Display.prototype.pawnPromotion = function(piece) {
 
 Chess.Display.prototype.clearPromotion = function() {
   this.render(null);
+};
+
+Chess.Display.prototype.gameOver = function(color) {
+  var modalBackground = document.createElement("div");
+  var modal = document.createElement("section");
+  var prompt = document.createElement("p");
+  var button = document.createElement("input");
+
+
+  modalBackground.className = "chessboard-modal-background";
+  modal.className = "chessboard-modal";
+  prompt.className = "piece-select-prompt";
+
+  prompt.innerHTML = "Checkmate, " + color + " wins!";
+
+  modal.appendChild(prompt);
+
+  button.type = "button";
+  button.value = "New Game";
+  button.className = "new-game";
+  button.onclick = Chess.newGame.bind(Chess);
+
+  modal.appendChild(button);
+
+  this.chessboard.appendChild(modalBackground);
+  this.chessboard.appendChild(modal);
+
+
+};
+
+Chess.Display.prototype.showWinner = function(color) {
+  this.currentState = this.states.End;
+  this.winner = color;
 };
 
 Chess.Display.prototype.generateButton = function(piece, choice, element) {

@@ -24,10 +24,16 @@
 
 .piece-select-prompt {
   text-align: center;
+  margin: 10px;
 }
 
 .piece-select {
   margin: 10px 10px;
+}
+
+.new-game {
+  margin: 10px auto;
+  display: block;
 }
 
 .green, .brown, .white {

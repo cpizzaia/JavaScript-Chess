@@ -103,6 +103,7 @@ describe("Piece", function() {
     beforeEach(function() {
       piece = new Chess.King("black", board, [0,0]);
       board.grid[0][0] = piece;
+
     });
 
     it("returns true if the king is in checkmate", function() {
@@ -117,6 +118,82 @@ describe("Piece", function() {
       board.grid[0][2] = new Chess.Rook("black", board, [0,2]);
       board.grid[2][0] = new Chess.Rook("black", board, [2,0]);
       expect(piece.checkmate()).toBe(false);
+    });
+  });
+
+  describe("#toQueen", function() {
+    beforeEach(function() {
+      piece = new Chess.Pawn("white", board, [0,0]);
+      board.grid[0][0] = piece;
+    });
+
+    it("should convert the piece to a queen with the same attributes it has", function() {
+      var color = piece.color;
+      var currentPosition = piece.currentPosition;
+
+      piece.toQueen();
+      var queen = board.getPiece(currentPosition);
+
+      expect(queen instanceof Chess.Queen).toBe(true);
+      expect(queen.color).toEqual(color);
+      expect(Chess.Util._arrayEquals(queen.currentPosition, currentPosition)).toBe(true);
+    });
+  });
+
+  describe("#toKnight", function() {
+    beforeEach(function() {
+      piece = new Chess.Pawn("white", board, [0,0]);
+      board.grid[0][0] = piece;
+    });
+
+    it("should convert the piece to a knight with the same attributes it has", function() {
+      var color = piece.color;
+      var currentPosition = piece.currentPosition;
+
+      piece.toKnight();
+      var knight = board.getPiece(currentPosition);
+
+      expect(knight instanceof Chess.Knight).toBe(true);
+      expect(knight.color).toEqual(color);
+      expect(Chess.Util._arrayEquals(knight.currentPosition, currentPosition)).toBe(true);
+    });
+  });
+
+  describe("#toBishop", function() {
+    beforeEach(function() {
+      piece = new Chess.Pawn("white", board, [0,0]);
+      board.grid[0][0] = piece;
+    });
+
+    it("should convert the piece to a bishop with the same attributes it has", function() {
+      var color = piece.color;
+      var currentPosition = piece.currentPosition;
+
+      piece.toBishop();
+      var bishop = board.getPiece(currentPosition);
+
+      expect(bishop instanceof Chess.Bishop).toBe(true);
+      expect(bishop.color).toEqual(color);
+      expect(Chess.Util._arrayEquals(bishop.currentPosition, currentPosition)).toBe(true);
+    });
+  });
+
+  describe("#toRook", function() {
+    beforeEach(function() {
+      piece = new Chess.Pawn("white", board, [0,0]);
+      board.grid[0][0] = piece;
+    });
+
+    it("should convert the piece to a rook with the same attributes it has", function() {
+      var color = piece.color;
+      var currentPosition = piece.currentPosition;
+
+      piece.toRook();
+      var rook = board.getPiece(currentPosition);
+
+      expect(rook instanceof Chess.Rook).toBe(true);
+      expect(rook.color).toEqual(color);
+      expect(Chess.Util._arrayEquals(rook.currentPosition, currentPosition)).toBe(true);
     });
   });
 });

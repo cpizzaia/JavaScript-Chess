@@ -345,26 +345,26 @@ Chess.Pawn.prototype.toQueen = function() {
   var x = this.currentPosition[0];
   var y = this.currentPosition[1];
   this.board.grid[x][y] = new Chess.Queen(this.color, this.board, this.currentPosition);
-  Chess.display.clearPromotion();
+  if (typeof Chess.display !== "undefined") Chess.display.clearPromotion();
 };
 
 Chess.Pawn.prototype.toBishop = function() {
   var x = this.currentPosition[0];
   var y = this.currentPosition[1];
   this.board.grid[x][y] = new Chess.Bishop(this.color, this.board, this.currentPosition);
-  Chess.display.clearPromotion();
+  if (typeof Chess.display !== "undefined") Chess.display.clearPromotion();
 };
 
 Chess.Pawn.prototype.toKnight = function() {
   var x = this.currentPosition[0];
   var y = this.currentPosition[1];
   this.board.grid[x][y] = new Chess.Knight(this.color, this.board, this.currentPosition);
-  Chess.display.clearPromotion();
+  if (typeof Chess.display !== "undefined") Chess.display.clearPromotion();
 };
 
 Chess.Pawn.prototype.toRook = function() {
   var x = this.currentPosition[0];
   var y = this.currentPosition[1];
   this.board.grid[x][y] = new Chess.Rook(this.color, this.board, this.currentPosition);
-  Chess.display.clearPromotion();
+  if (typeof Chess.display !== "undefined") Chess.display.clearPromotion();
 };

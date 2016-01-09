@@ -316,9 +316,9 @@ Chess.Pawn.prototype.validMove = function(startPos, endPos) {
 
   if (this.board.grid[x][y] !== null && b === y) return false;
 
-  if (this.color === "white" && a === 6 && y === b && Math.abs(x - a) == 2) {
+  if (this.color === "white" && a === 6 && y === b && Math.abs(x - a) === 2 && this.board.getPiece([a-1, b]) === null) {
     return true;
-  } else if (this.color === "black" && a == 1 && y==b && Math.abs(x - a) == 2) {
+  } else if (this.color === "black" && a == 1 && y==b && Math.abs(x - a) === 2 && this.board.getPiece([a+1, b]) === null) {
     return true;
   }
 

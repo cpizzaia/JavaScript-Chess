@@ -10,6 +10,7 @@ Chess.Piece.prototype.init = function(color, board, position) {
   this.color = color;
   this.board = board;
   this.currentPosition = position;
+  this.moved = 0;
   this.moves = [];
 };
 
@@ -179,6 +180,8 @@ Chess.King.prototype.validMove = function(startPos, endPos) {
   x = endPos[0],
   y = endPos[1];
 
+  if (this.checkIfCastleMove(endPos)) return true;
+
   if (Math.abs(x - a) < 2 && Math.abs(y - b) < 2) {
     return Chess.Piece.prototype.validMove.call(this, startPos, endPos);
   } else {
@@ -215,17 +218,113 @@ Chess.King.prototype.checkmate = function() {
   return true;
 };
 
-Chess.King.prototype.inCheck = function() {
+Chess.King.prototype.inCheck = function(position) {
   var piece;
+
+  if (typeof position === "undefined") position = this.currentPosition;
+
   for (var i = 0; i < this.board.grid.length; i++) {
     for (var j = 0; j < this.board.grid[i].length; j++) {
       piece = this.board.getPiece([i, j]);
-      if (piece !== null && piece.color !== this.color) {
-        if (Chess.Util._includesSubArray(piece.availableMoves(), this.currentPosition)) return true;
+      if (piece !== null && piece.color !== this.color && !(piece instanceof Chess.King)) {
+        if (Chess.Util._includesSubArray(piece.availableMoves(), position)) return true;
       }
     }
   }
   return false;
+};
+
+Chess.King.prototype.didCastle = function(lastPos) {
+  if (
+    this.color === "white" &&
+    Chess.Util._arrayEquals(lastPos, [7,4]) &&
+    Chess.Util._arrayEquals(this.currentPosition, [7, 6]) &&
+    this.moved === 1
+  ) {
+    return true;
+  } else if (
+    this.color === "white" &&
+    Chess.Util._arrayEquals(lastPos, [7,4]) &&
+    Chess.Util._arrayEquals(this.currentPosition, [7, 2]) &&
+    this.moved === 1
+  ) {
+    return true;
+  } else if (
+    this.color === "black" &&
+    Chess.Util._arrayEquals(lastPos, [0,4]) &&
+    Chess.Util._arrayEquals(this.currentPosition, [0, 6]) &&
+    this.moved === 1
+  ) {
+    return true;
+  } else if (
+    this.color === "black" &&
+    Chess.Util._arrayEquals(lastPos, [0,4]) &&
+    Chess.Util._arrayEquals(this.currentPosition, [0, 2]) &&
+    this.moved === 1
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
+Chess.King.prototype.checkIfCastleMove = function(endPos) {
+  var castlingDirection =  this.castlingDirection();
+  if (this.color === "white" && Chess.Util._arrayEquals(endPos, [7,2]) && castlingDirection[0]) {
+    return true;
+  } else if (this.color === "white" && Chess.Util._arrayEquals(endPos, [7,6]) && castlingDirection[1]) {
+    return true;
+  } else if (this.color === "black" && Chess.Util._arrayEquals(endPos, [0,2]) && castlingDirection[0]) {
+    return true;
+  } else if (this.color === "black" && Chess.Util._arrayEquals(endPos, [0,6]) && castlingDirection[1]) {
+    return true;
+  }
+  return false;
+};
+
+Chess.King.prototype.castlingDirection = function() {
+  var rooks = this.getRooks();
+  var result = [];
+
+  result[0] = this.canCastle(rooks[0]) && this.castlingCollisionCheck("left");
+  result[1] = this.canCastle(rooks[1]) && this.castlingCollisionCheck("right");
+
+  return result;
+};
+
+Chess.King.prototype.castlingCollisionCheck = function(direction) {
+
+  for (var i = 0; i < 2; i++){
+    if (this.color === "white" && direction === "left") {
+      if (this.board.getPiece([7,3-i]) !== null || this.inCheck([7,3-i])) return false;
+    } else if (this.color === "white" && direction === "right") {
+      if (this.board.getPiece([7,5+i]) !== null || this.inCheck([7,5+i])) return false;
+    } else if (this.color === "black" && direction === "right") {
+      if (this.board.getPiece([0,5+i]) !== null || this.inCheck([0,5+i])) return false;
+    } else if (this.color === "black" && direction === "left") {
+      if (this.board.getPiece([0,3-i]) !== null || this.inCheck([0,3-i])) return false;
+    }
+  }
+
+  return true;
+};
+
+Chess.King.prototype.canCastle = function(rook) {
+  if (this.moved > 0 || this.inCheck()) {
+    return false;
+  } else if (rook === null || rook.moved > 0) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+Chess.King.prototype.getRooks = function() {
+  if (this.color === "white") {
+    return [this.board.getPiece([7,0]), this.board.getPiece([7,7])];
+  } else if (this.color === "black") {
+    return [this.board.getPiece([0,0]), this.board.getPiece([0,7])];
+  }
 };
 
 

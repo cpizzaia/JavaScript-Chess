@@ -23,13 +23,47 @@ Chess.Board.prototype.move = function(startPos, endPos) {
   piece2 = this.grid[endPos[0]][endPos[1]];
 
   if (piece1.validMove(startPos, endPos)) {
-    this.grid[startPos[0]][startPos[1]] = null;
-    this.grid[endPos[0]][endPos[1]] = piece1;
-    piece1.currentPosition = endPos;
-    this.moves.push([startPos, endPos, piece1, piece2]);
+    this.movePiece(piece1, piece2, startPos, endPos);
+    this.didKingCastle(piece1, startPos);
     return true;
   }
   return false;
+};
+
+Chess.Board.prototype.movePiece = function(piece1, piece2, startPos, endPos) {
+  this.grid[startPos[0]][startPos[1]] = null;
+  this.grid[endPos[0]][endPos[1]] = piece1;
+  piece1.currentPosition = endPos;
+  piece1.moved++;
+  this.moves.push([startPos, endPos, piece1, piece2]);
+};
+
+Chess.Board.prototype.didKingCastle = function(piece, lastPos) {
+  if (piece instanceof Chess.King && piece.didCastle(lastPos)) {
+    this.findRook(piece, lastPos);
+  }
+};
+
+Chess.Board.prototype.findRook = function(king) {
+  if (king.color === "white") {
+    if (Chess.Util._arrayEquals(king.currentPosition, [7,6])) {
+      this.moveRook([7,7], [7,5]);
+    } else if (Chess.Util._arrayEquals(king.currentPosition, [7,2])) {
+      this.moveRook([7,0], [7,3]);
+    }
+  } else if (king.color === "black") {
+    if (Chess.Util._arrayEquals(king.currentPosition, [0,6])) {
+      this.moveRook([0,7], [0,5]);
+    } else if (Chess.Util._arrayEquals(king.currentPosition, [0,2])) {
+      this.moveRook([0,0], [0,3]);
+    }
+  }
+};
+
+Chess.Board.prototype.moveRook = function(startPos, endPos) {
+  var rook = this.getPiece(startPos);
+
+  this.movePiece(rook, null, startPos, endPos);
 };
 
 Chess.Board.prototype.reverseLastMove = function() {
@@ -39,7 +73,7 @@ Chess.Board.prototype.reverseLastMove = function() {
   endPos = lastMove[1],
   piece1 = lastMove[2],
   piece2 = lastMove[3];
-
+  piece1.moved--;
 
   this.grid[startPos[0]][startPos[1]] = piece1;
   piece1.currentPosition = startPos;
